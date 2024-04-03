@@ -72,43 +72,19 @@ for entry in msftDict:
         iptables.append("# "+entry['notes'])
 
     # Iterate through required ports and set prefixes
-    # Allowlisting process does not support ICMP at present
 
     ports=[]
-
     # TCP
-    # If both HTTP and HTTPS are required, Anuvu requires a blank prefix
-    # If only HTTPS is required, prefix with HTTPS:
-    # If only HTTPS is required and bypassing Squid, prefix with HTTPSONLY:
-    # Currently the Anuvu allowlisting process does not support any other protocols/ports
-
     if 'tcpPorts' in entry.keys():
-
         iptports['tcp']= entry['tcpPorts'].split(',')
-
-        # Check to see if it requires only HTTPS
-        if entry['tcpPorts']=='443':
-            ports=["HTTPS:"]
-
-        # If it also has port 80, we don't need a prefix
-        elif '80' in entry['tcpPorts']:
-            ports=[""]
-
-        # Everything else uses the format TCP_<portnum>
-        else:
-            for tcp in iptports['tcp']:
-                ports.append('TCP_'+str(int(tcp))+':')
 
     # UDP
     # Currently the Anuvu allowlisting process does not support specifying ports
 
     if 'udpPorts' in entry.keys():
         iptports['udp'] = entry['udpPorts'].split(',')
-        for udp in iptports['udp']:
-            ports.append('UDP_'+str(int(udp))+':')
-
+   
     # IP Addresses
-    # Anuvu does not currently recommend IPs due to the list getting stale. 
     # Microsoft explicitly states IP addresses in full network syntax for both IPv4 and IPv6
 
     explicitIP=[]
