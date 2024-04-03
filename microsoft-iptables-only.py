@@ -79,7 +79,6 @@ for entry in msftDict:
         iptports['tcp']= entry['tcpPorts'].split(',')
 
     # UDP
-    # Currently the Anuvu allowlisting process does not support specifying ports
 
     if 'udpPorts' in entry.keys():
         iptports['udp'] = entry['udpPorts'].split(',')
@@ -97,14 +96,12 @@ for entry in msftDict:
             #print(ipobj.version)
 
     # Domains
-    # Anything following the domain is implicitly wildcarded
 
     urls=[]
     
     if 'urls' in entry.keys():
         domain=""
         for url in entry['urls']:
-            # Anuvu requires wildcard domains to be prefixed with only a dot, no *
             if url[0]=="*":
                 domain=url[1:]
             else:
